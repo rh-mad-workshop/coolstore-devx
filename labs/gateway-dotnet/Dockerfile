@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi8/dotnet-31-runtime AS build
+FROM registry.access.redhat.com/ubi9/dotnet-70-runtime AS build
 # This image provides a .NET Core 3.1 environment you can use to run your .NET
 # applications.
 
@@ -8,9 +8,9 @@ LABEL io.k8s.description="Platform for building and running .NET Core 3.1 applic
       io.openshift.tags="builder,.net,dotnet,dotnetcore,dotnet-31"
 
 # Labels consumed by Red Hat build service
-LABEL name="ubi8/dotnet-31" \
-      com.redhat.component="dotnet-31-container" \
-      version="3.1" \
+LABEL name="ubi9/dotnet-70" \
+      com.redhat.component="dotnet-70-container" \
+      version="7.0" \
       release="1" \
       architecture="x86_64"
 
@@ -21,7 +21,7 @@ LABEL com.redhat.dev-mode="DEV_MODE:false" \
 # Switch to root for package installs
 USER 0
 
-RUN INSTALL_PKGS="npm nodejs-nodemon dotnet-sdk-3.1 rsync procps-ng findutils" && \
+RUN INSTALL_PKGS="npm nodejs-nodemon dotnet-sdk-7.0 rsync procps-ng findutils" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y && \
@@ -57,7 +57,7 @@ ENV  DOTNET_USE_POLLING_FILE_WATCHER=true
 USER 1001
 
 # Set the default CMD to print the usage of the language image.
-FROM registry.redhat.io/ubi8/dotnet-31-runtime
+FROM registry.access.redhat.com/ubi9/dotnet-70-runtime
 WORKDIR /opt/app-root
 COPY --from=build /opt/app-root .
 ENTRYPOINT ["dotnet", "gateway.dll"]
