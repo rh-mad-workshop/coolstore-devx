@@ -1,0 +1,217 @@
+[{
+  "apiVersion" : "v1",
+  "kind" : "Service",
+  "metadata" : {
+    "annotations" : {
+      "app.openshift.io/vcs-url" : "<<unknown>>",
+      "app.quarkus.io/commit-id" : "7a4ae74f4f007d11fa1b7ff19bcc3e80030e827c",
+      "app.quarkus.io/build-timestamp" : "2024-03-26 - 13:16:56 +0000"
+    },
+    "labels" : {
+      "app.kubernetes.io/name" : "inventory-coolstore",
+      "app.kubernetes.io/part-of" : "coolstore",
+      "app.kubernetes.io/version" : "1.0.0-SNAPSHOT",
+      "app" : "coolstore",
+      "app.kubernetes.io/instance" : "inventory",
+      "component" : "inventory",
+      "app.kubernetes.io/managed-by" : "quarkus",
+      "app.openshift.io/runtime" : "quarkus"
+    },
+    "name" : "inventory-coolstore"
+  },
+  "spec" : {
+    "ports" : [ {
+      "name" : "http",
+      "port" : 80,
+      "protocol" : "TCP",
+      "targetPort" : 8080
+    } ],
+    "selector" : {
+      "app.kubernetes.io/name" : "inventory-coolstore",
+      "app.kubernetes.io/part-of" : "coolstore"
+    },
+    "type" : "ClusterIP"
+  }
+},{
+  "apiVersion" : "image.openshift.io/v1",
+  "kind" : "ImageStream",
+  "metadata" : {
+    "labels" : {
+      "app.kubernetes.io/name" : "inventory-coolstore",
+      "app.kubernetes.io/part-of" : "coolstore",
+      "app.kubernetes.io/version" : "1.0.0-SNAPSHOT"
+    },
+    "name" : "openjdk-17"
+  },
+  "spec" : {
+    "dockerImageRepository" : "registry.access.redhat.com/ubi8/openjdk-17",
+    "lookupPolicy" : {
+      "local" : true
+    }
+  }
+},{
+  "apiVersion" : "image.openshift.io/v1",
+  "kind" : "ImageStream",
+  "metadata" : {
+    "annotations" : {
+      "app.openshift.io/vcs-url" : "<<unknown>>",
+      "app.quarkus.io/commit-id" : "7a4ae74f4f007d11fa1b7ff19bcc3e80030e827c",
+      "app.quarkus.io/build-timestamp" : "2024-03-26 - 13:16:56 +0000"
+    },
+    "labels" : {
+      "app.kubernetes.io/name" : "inventory-coolstore",
+      "app.kubernetes.io/part-of" : "coolstore",
+      "app.kubernetes.io/version" : "1.0.0-SNAPSHOT",
+      "app" : "coolstore",
+      "app.kubernetes.io/instance" : "inventory",
+      "component" : "inventory",
+      "app.kubernetes.io/managed-by" : "quarkus",
+      "app.openshift.io/runtime" : "quarkus"
+    },
+    "name" : "inventory-coolstore"
+  },
+  "spec" : {
+    "lookupPolicy" : {
+      "local" : true
+    }
+  }
+},{
+  "apiVersion" : "build.openshift.io/v1",
+  "kind" : "BuildConfig",
+  "metadata" : {
+    "annotations" : {
+      "app.openshift.io/vcs-url" : "<<unknown>>",
+      "app.quarkus.io/commit-id" : "7a4ae74f4f007d11fa1b7ff19bcc3e80030e827c",
+      "app.quarkus.io/build-timestamp" : "2024-03-26 - 13:16:56 +0000"
+    },
+    "labels" : {
+      "app.kubernetes.io/name" : "inventory-coolstore",
+      "app.kubernetes.io/part-of" : "coolstore",
+      "app.kubernetes.io/version" : "1.0.0-SNAPSHOT",
+      "app" : "coolstore",
+      "app.kubernetes.io/instance" : "inventory",
+      "component" : "inventory",
+      "app.kubernetes.io/managed-by" : "quarkus",
+      "app.openshift.io/runtime" : "quarkus"
+    },
+    "name" : "inventory-coolstore"
+  },
+  "spec" : {
+    "output" : {
+      "to" : {
+        "kind" : "ImageStreamTag",
+        "name" : "inventory-coolstore:1.0.0-SNAPSHOT"
+      }
+    },
+    "source" : {
+      "binary" : { }
+    },
+    "strategy" : {
+      "sourceStrategy" : {
+        "from" : {
+          "kind" : "ImageStreamTag",
+          "name" : "openjdk-17:1.16"
+        }
+      }
+    }
+  }
+},{
+  "apiVersion" : "apps/v1",
+  "kind" : "Deployment",
+  "metadata" : {
+    "annotations" : {
+      "app.openshift.io/vcs-url" : "<<unknown>>",
+      "app.quarkus.io/commit-id" : "7a4ae74f4f007d11fa1b7ff19bcc3e80030e827c",
+      "app.quarkus.io/build-timestamp" : "2024-03-26 - 13:16:56 +0000"
+    },
+    "labels" : {
+      "app" : "coolstore",
+      "app.kubernetes.io/instance" : "inventory",
+      "component" : "inventory",
+      "app.kubernetes.io/managed-by" : "quarkus",
+      "app.openshift.io/runtime" : "quarkus",
+      "app.kubernetes.io/version" : "1.0.0-SNAPSHOT",
+      "app.kubernetes.io/part-of" : "coolstore",
+      "app.kubernetes.io/name" : "inventory-coolstore"
+    },
+    "name" : "inventory-coolstore"
+  },
+  "spec" : {
+    "replicas" : 1,
+    "selector" : {
+      "matchLabels" : {
+        "app.kubernetes.io/part-of" : "coolstore",
+        "app.kubernetes.io/name" : "inventory-coolstore"
+      }
+    },
+    "template" : {
+      "metadata" : {
+        "annotations" : {
+          "app.openshift.io/vcs-url" : "<<unknown>>",
+          "app.quarkus.io/commit-id" : "7a4ae74f4f007d11fa1b7ff19bcc3e80030e827c",
+          "app.quarkus.io/build-timestamp" : "2024-03-26 - 13:16:56 +0000"
+        },
+        "labels" : {
+          "app" : "coolstore",
+          "app.kubernetes.io/instance" : "inventory",
+          "component" : "inventory",
+          "app.kubernetes.io/managed-by" : "quarkus",
+          "app.openshift.io/runtime" : "quarkus",
+          "app.kubernetes.io/version" : "1.0.0-SNAPSHOT",
+          "app.kubernetes.io/part-of" : "coolstore",
+          "app.kubernetes.io/name" : "inventory-coolstore"
+        }
+      },
+      "spec" : {
+        "containers" : [ {
+          "env" : [ {
+            "name" : "JAVA_APP_JAR",
+            "value" : "/deployments/inventory-quarkus-1.0.0-SNAPSHOT-runner.jar"
+          } ],
+          "image" : "image-registry.openshift-image-registry.svc:5000/kdubois/inventory-coolstore:1.0.0-SNAPSHOT",
+          "imagePullPolicy" : "Always",
+          "name" : "inventory-coolstore",
+          "ports" : [ {
+            "containerPort" : 8080,
+            "name" : "http",
+            "protocol" : "TCP"
+          } ]
+        } ]
+      }
+    }
+  }
+},{
+  "apiVersion" : "route.openshift.io/v1",
+  "kind" : "Route",
+  "metadata" : {
+    "annotations" : {
+      "app.openshift.io/vcs-url" : "<<unknown>>",
+      "app.quarkus.io/commit-id" : "7a4ae74f4f007d11fa1b7ff19bcc3e80030e827c",
+      "app.quarkus.io/build-timestamp" : "2024-03-26 - 13:16:56 +0000"
+    },
+    "labels" : {
+      "app.kubernetes.io/name" : "inventory-coolstore",
+      "app.kubernetes.io/part-of" : "coolstore",
+      "app.kubernetes.io/version" : "1.0.0-SNAPSHOT",
+      "app" : "coolstore",
+      "app.kubernetes.io/instance" : "inventory",
+      "component" : "inventory",
+      "app.kubernetes.io/managed-by" : "quarkus",
+      "app.openshift.io/runtime" : "quarkus"
+    },
+    "name" : "inventory-coolstore"
+  },
+  "spec" : {
+    "port" : {
+      "targetPort" : "http"
+    },
+    "tls" : {
+      "insecureEdgeTerminationPolicy" : "Redirect",
+      "termination" : "edge"
+    },
+    "to" : {
+      "kind" : "Service",
+      "name" : "inventory-coolstore"
+    }
+  }
+}]
