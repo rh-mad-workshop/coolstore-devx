@@ -6,7 +6,7 @@ attributes:
 components:
   - name: universal-developer-image
     container: 
-      image: registry.redhat.io/devspaces/udi-rhel8:3.12
+      image: quay.io/openshiftlabs/mad-coolstore-devspaces:1.0
       memoryLimit: 6Gi
       mountSources: true
 commands: []
