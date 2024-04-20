@@ -16,21 +16,18 @@ namespace gateway.Controllers
 
         private static String catalogApiHost;
         private static String inventoryApiHost;
-
-        public static string GetEnvironmentVariable(string name, string defaultValue)
-            => Environment.GetEnvironmentVariable(name) is string v && v.Length > 0 ? v : defaultValue;
         public static void Config()
         {
             try
             {
                 // discover the URL of the services we are going to call
                 catalogApiHost = "http://" + 
-                    GetEnvironmentVariable("COMPONENT_CATALOG_COOLSTORE_HOST", "catalog-coolstore") + ":" +
-                    GetEnvironmentVariable("COMPONENT_CATALOG_COOLSTORE_PORT", "8080");                   
+                    Environment.GetEnvironmentVariable("CATALOG_COOLSTORE_SERVICE_HOST") + ":" +
+                    Environment.GetEnvironmentVariable("CATALOG_COOLSTORE_SERVICE_PORT");
                 
                 inventoryApiHost = "http://" +
-                    GetEnvironmentVariable("COMPONENT_INVENTORY_COOLSTORE_HOST", "inventory-coolstore") + ":" +
-                    GetEnvironmentVariable("COMPONENT_INVENTORY_COOLSTORE_PORT", "8080");
+                    Environment.GetEnvironmentVariable("INVENTORY_COOLSTORE_SERVICE_HOST") + ":" +
+                    Environment.GetEnvironmentVariable("INVENTORY_COOLSTORE_SERVICE_PORT");
 
                 // set up the Http conection pools
                 inventoryHttpClient.BaseAddress = new Uri(inventoryApiHost);
@@ -38,10 +35,12 @@ namespace gateway.Controllers
             }
             catch(Exception e)
             {
-                Console.WriteLine("Checking catalog api URL " + catalogApiHost);
-                Console.WriteLine("Checking inventory api URL " + inventoryApiHost);
+                Console.WriteLine("Checking ENV CATALOG_COOLSTORE_SERVICE_HOST=" + Environment.GetEnvironmentVariable("CATALOG_COOLSTORE_SERVICE_HOST"));
+                Console.WriteLine("Checking ENV CATALOG_COOLSTORE_SERVICE_PORT=" + Environment.GetEnvironmentVariable("CATALOG_COOLSTORE_SERVICE_PORT"));
+                Console.WriteLine("Checking ENV INVENTORY_COOLSTORE_SERVICE_HOST=" + Environment.GetEnvironmentVariable("INVENTORY_COOLSTORE_SERVICE_HOST"));
+                Console.WriteLine("Checking ENV INVENTORY_COOLSTORE_SERVICE_PORT=" + Environment.GetEnvironmentVariable("INVENTORY_COOLSTORE_SERVICE_PORT"));
                 Console.WriteLine("Failure to build location URLs for Catalog and Inventory services: " + e.Message);
-                throw;
+                throw e;
             }
         }
 
@@ -61,7 +60,7 @@ namespace gateway.Controllers
             {
                 // get the product list
                 IEnumerable<Products> productsList = GetCatalog();
-Console.WriteLine("22222222");
+
                 // update each item with their inventory value
                 foreach(Products p in productsList)
                 {
@@ -77,23 +76,18 @@ Console.WriteLine("22222222");
                 Console.WriteLine("Using Catalog service: " + catalogApiHost + " and Inventory service: " + inventoryApiHost);
                 Console.WriteLine("Failure to get service data: " + e.Message);
                 // on failures return error
-                throw;
+                throw e;
             }
         }
 
         private IEnumerable<Products> GetCatalog()
         { 
             var data = catalogHttpClient.GetStringAsync("/api/catalog").Result;
-            Console.WriteLine("GetCatalog(): " + data);
-            Console.WriteLine("11111111");
-            Console.WriteLine("Convert: " + JsonConvert.DeserializeObject<IEnumerable<Products>>(data));
             return JsonConvert.DeserializeObject<IEnumerable<Products>>(data);
         }
         private Inventory GetInventory(string itemId)
         {
-            Console.WriteLine("itemId: " + itemId);
             var data = inventoryHttpClient.GetStringAsync("/api/inventory/" + itemId).Result;
-            Console.WriteLine("GetInventory(): " + data);
             return JsonConvert.DeserializeObject<Inventory>(data);
         }
 
