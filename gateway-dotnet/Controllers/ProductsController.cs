@@ -65,7 +65,7 @@ Console.WriteLine("22222222");
                 // update each item with their inventory value
                 foreach(Products p in productsList)
                 {
-                    Inventory inv = GetInventory(p.ItemId);
+                    Inventory inv = GetInventory(p.id);
                     if (inv != null)
                         p.Availability = new Availability(inv);
                 }    
@@ -89,10 +89,10 @@ Console.WriteLine("22222222");
             Console.WriteLine("Convert: " + JsonConvert.DeserializeObject<IEnumerable<Products>>(data));
             return JsonConvert.DeserializeObject<IEnumerable<Products>>(data);
         }
-        private Inventory GetInventory(string itemId)
+        private Inventory GetInventory(string id)
         {
-            Console.WriteLine("itemId: " + itemId);
-            var data = inventoryHttpClient.GetStringAsync("/api/inventory/" + itemId).Result;
+            Console.WriteLine("id: " + id);
+            var data = inventoryHttpClient.GetStringAsync("/api/inventory/" + id).Result;
             Console.WriteLine("GetInventory(): " + data);
             return JsonConvert.DeserializeObject<Inventory>(data);
         }
