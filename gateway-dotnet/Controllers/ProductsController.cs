@@ -84,11 +84,14 @@ namespace gateway.Controllers
         private IEnumerable<Products> GetCatalog()
         { 
             var data = catalogHttpClient.GetStringAsync("/api/catalog").Result;
+            Console.WriteLine("GetCatalog(): " + data);
             return JsonConvert.DeserializeObject<IEnumerable<Products>>(data);
         }
         private Inventory GetInventory(string itemId)
         {
+            Console.WriteLine("itemId: " + itemId);
             var data = inventoryHttpClient.GetStringAsync("/api/inventory/" + itemId).Result;
+            Console.WriteLine("GetInventory(): " + data);
             return JsonConvert.DeserializeObject<Inventory>(data);
         }
 
