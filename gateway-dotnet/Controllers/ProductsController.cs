@@ -61,7 +61,7 @@ namespace gateway.Controllers
             {
                 // get the product list
                 IEnumerable<Products> productsList = GetCatalog();
-
+Console.WriteLine("22222222");
                 // update each item with their inventory value
                 foreach(Products p in productsList)
                 {
@@ -85,6 +85,8 @@ namespace gateway.Controllers
         { 
             var data = catalogHttpClient.GetStringAsync("/api/catalog").Result;
             Console.WriteLine("GetCatalog(): " + data);
+            Console.WriteLine("11111111");
+            Console.WriteLine("Convert: " + JsonConvert.DeserializeObject<IEnumerable<Products>>(data));
             return JsonConvert.DeserializeObject<IEnumerable<Products>>(data);
         }
         private Inventory GetInventory(string itemId)
